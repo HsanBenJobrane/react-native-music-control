@@ -18,6 +18,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
 
 import java.util.Map;
+import android.net.Uri;
 
 import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
 import static com.tanguyantoine.react.MusicControlModule.CHANNEL_ID;
@@ -108,9 +109,13 @@ public class MusicControlNotification {
         builder.setSmallIcon(customIcon != 0 ? customIcon : smallIcon);
 
         // Open the app when the notification is clicked
-        String packageName = context.getPackageName();
-        Intent openApp = context.getPackageManager().getLaunchIntentForPackage(packageName);
-        builder.setContentIntent(PendingIntent.getActivity(context, 0, openApp, 0));
+        // String packageName = context.getPackageName();
+        // Intent openApp = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        // builder.setContentIntent(PendingIntent.getActivity(context, 0, openApp, 0));
+        
+        Intent openApp = new Intent(Intent.ACTION_VIEW, Uri.parse("hayamusic://notification"));
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 555, openApp, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
 
         // Remove notification
         Intent remove = new Intent(REMOVE_NOTIFICATION);
